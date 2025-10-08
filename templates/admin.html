@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f6fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            color: #7f8c8d;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #667eea;
+            color: white;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .download-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-data {
+            padding: 40px;
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 800px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Applications</h3>
+                <div class="value">{{ applications|length }}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Successful Payments</h3>
+                <div class="value">{{ applications|selectattr('payment_status', 'equalto', 'success')|list|length }}</div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            {% if applications %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Date of Birth</th>
+                        <th>Payment ID</th>
+                        <th>Payment Status</th>
+                        <th>Resume</th>
+                        <th>Submitted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td>{{ app.full_name }}</td>
+                        <td>{{ app.email }}</td>
+                        <td>{{ app.phone }}</td>
+                        <td>{{ app.gender }}</td>
+                        <td>{{ app.dob }}</td>
+                        <td>{{ app.payment_id or 'N/A' }}</td>
+                        <td>
+                            <span class="status-badge {% if app.payment_status == 'success' %}status-success{% else %}status-pending{% endif %}">
+                                {{ app.payment_status }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="/download-resume/{{ app.resume_filename }}" class="download-link">Download</a>
+                        </td>
+                        <td>{{ app.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="no-data">
+                <p>No applications submitted yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

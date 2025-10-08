@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .file-info {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Application Form</h1>
+        <form id="applicationForm">
+            <div class="form-group">
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" id="full_name" name="full_name" required>
+                <div class="error" id="full_name_error"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required>
+                <div class="error" id="email_error"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number <span class="required">*</span></label>
+                <input type="text" id="phone" name="phone" required>
+                <div class="error" id="phone_error"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Gender <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="male" name="gender" value="Male" required>
+                        <label for="male" style="margin-bottom: 0;">Male</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="female" name="gender" value="Female" required>
+                        <label for="female" style="margin-bottom: 0;">Female</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="other" name="gender" value="Other" required>
+                        <label for="other" style="margin-bottom: 0;">Other</label>
+                    </div>
+                </div>
+                <div class="error" id="gender_error"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Date of Birth <span class="required">*</span></label>
+                <input type="date" id="dob" name="dob" required>
+                <div class="error" id="dob_error"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Short Bio <span class="required">*</span></label>
+                <textarea id="bio" name="bio" required></textarea>
+                <div class="error" id="bio_error"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Resume Upload <span class="required">*</span></label>
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                <div class="file-info">Only PDF, DOC, or DOCX files. Max size: 2MB</div>
+                <div class="error" id="resume_error"></div>
+                <div class="success" id="resume_success"></div>
+            </div>
+
+            <button type="submit" id="submitBtn">Submit and Pay ₹50</button>
+        </form>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        let uploadedResumeFilename = null;
+
+        document.getElementById('resume').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            const resumeError = document.getElementById('resume_error');
+            const resumeSuccess = document.getElementById('resume_success');
+            
+            resumeError.textContent = '';
+            resumeSuccess.textContent = '';
+
+            if (!file) return;
+
+            // Validate file size
+            if (file.size > 2 * 1024 * 1024) {
+                resumeError.textContent = 'File size must be less than 2MB';
+                e.target.value = '';
+                uploadedResumeFilename = null;
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            if (!allowedTypes.includes(file.type)) {
+                resumeError.textContent = 'Only PDF, DOC, and DOCX files are allowed';
+                e.target.value = '';
+                uploadedResumeFilename = null;
+                return;
+            }
+
+            // Upload file
+            const formData = new FormData();
+            formData.append('resume', file);
+
+            try {
+                const response = await fetch('/upload-resume', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    uploadedResumeFilename = data.filename;
+                    resumeSuccess.textContent = 'Resume uploaded successfully!';
+                } else {
+                    resumeError.textContent = data.error || 'Failed to upload resume';
+                    uploadedResumeFilename = null;
+                }
+            } catch (error) {
+                resumeError.textContent = 'Error uploading resume';
+                uploadedResumeFilename = null;
+            }
+        });
+
+        document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Clear all errors
+            document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+            // Validate all fields
+            let isValid = true;
+
+            const fullName = document.getElementById('full_name').value.trim();
+            if (!fullName) {
+                document.getElementById('full_name_error').textContent = 'Full name is required';
+                isValid = false;
+            }
+
+            const email = document.getElementById('email').value.trim();
+            if (!email) {
+                document.getElementById('email_error').textContent = 'Email is required';
+                isValid = false;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('email_error').textContent = 'Invalid email format';
+                isValid = false;
+            }
+
+            const phone = document.getElementById('phone').value.trim();
+            if (!phone) {
+                document.getElementById('phone_error').textContent = 'Phone number is required';
+                isValid = false;
+            } else if (!/^\d{10}$/.test(phone)) {
+                document.getElementById('phone_error').textContent = 'Phone number must be 10 digits';
+                isValid = false;
+            }
+
+            const gender = document.querySelector('input[name="gender"]:checked');
+            if (!gender) {
+                document.getElementById('gender_error').textContent = 'Please select gender';
+                isValid = false;
+            }
+
+            const dob = document.getElementById('dob').value;
+            if (!dob) {
+                document.getElementById('dob_error').textContent = 'Date of birth is required';
+                isValid = false;
+            }
+
+            const bio = document.getElementById('bio').value.trim();
+            if (!bio) {
+                document.getElementById('bio_error').textContent = 'Bio is required';
+                isValid = false;
+            }
+
+            if (!uploadedResumeFilename) {
+                document.getElementById('resume_error').textContent = 'Please upload your resume';
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Create Razorpay order
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            try {
+                const orderResponse = await fetch('/create-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        full_name: fullName,
+                        email: email,
+                        phone: phone,
+                        gender: gender.value,
+                        dob: dob,
+                        bio: bio
+                    })
+                });
+
+                const orderData = await orderResponse.json();
+
+                if (!orderResponse.ok) {
+                    throw new Error(orderData.error || 'Failed to create order');
+                }
+
+                // Initialize Razorpay checkout
+                const options = {
+                    key: orderData.key_id,
+                    amount: orderData.amount,
+                    currency: orderData.currency,
+                    order_id: orderData.order_id,
+                    name: 'Application Fee',
+                    description: 'Application Submission Fee',
+                    handler: async function(response) {
+                        // Verify payment and submit application
+                        try {
+                            const verifyResponse = await fetch('/verify-payment', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_signature: response.razorpay_signature,
+                                    full_name: fullName,
+                                    email: email,
+                                    phone: phone,
+                                    gender: gender.value,
+                                    dob: dob,
+                                    bio: bio,
+                                    resume_filename: uploadedResumeFilename
+                                })
+                            });
+
+                            const verifyData = await verifyResponse.json();
+
+                            if (verifyResponse.ok) {
+                                window.location.href = '/success';
+                            } else {
+                                alert('Payment verification failed: ' + (verifyData.error || 'Unknown error'));
+                                submitBtn.disabled = false;
+                                submitBtn.textContent = 'Submit and Pay ₹50';
+                            }
+                        } catch (error) {
+                            alert('Error verifying payment: ' + error.message);
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Submit and Pay ₹50';
+                        }
+                    },
+                    prefill: {
+                        name: fullName,
+                        email: email,
+                        contact: phone
+                    },
+                    theme: {
+                        color: '#667eea'
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Submit and Pay ₹50';
+                        }
+                    }
+                };
+
+                const razorpay = new Razorpay(options);
+                razorpay.open();
+
+            } catch (error) {
+                alert('Error: ' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit and Pay ₹50';
+            }
+        });
+    </script>
+</body>
+</html>
